@@ -246,8 +246,8 @@
   }
 
   function addNumberSet(name: string, date: number, lPosition: number, rPosition: number, addColon: boolean) {
-    var dateStr1 = parseInt(date.toString().charAt(0));
-    var dateStr2 = parseInt(date.toString().charAt(1));
+    var dateStr1 = parseInt(date.toString().charAt(0)) || -1;
+    var dateStr2 = parseInt(date.toString().charAt(1)) || -1;
 
     var lMesh = scene.getObjectByName("l" + name);
     var rMesh = scene.getObjectByName("r" + name);
@@ -255,14 +255,17 @@
     if (lMesh) scene.remove(lMesh);
     if (rMesh) scene.remove(rMesh);
 
-    lMesh = numberMeshes[!Number.isNaN(dateStr2) ? dateStr1 : 0].clone();
+    // if (dateStr1 == -1 && dateStr2 == -1) return;
+
+    lMesh = numberMeshes[dateStr2 != -1 ? dateStr1 : 0].clone();
     lMesh.name = "l" + name;
     lMesh.position.set(-1.8, 2.8, lPosition);
     lMesh.castShadow = false;
     lMesh.visible = true;
     scene.add(lMesh);
 
-    rMesh = numberMeshes[!Number.isNaN(dateStr2) ? dateStr2 : dateStr1].clone();
+    console.log(dateStr1 + " " + dateStr2 + " " + date + " " + name);
+    rMesh = numberMeshes[dateStr2 != -1 && dateStr1 != -1 ? dateStr2 : dateStr1 != -1 ? dateStr1 : 0].clone();
     rMesh.name = "r" + name;
     rMesh.position.set(-1.8, 2.8, rPosition);
     rMesh.castShadow = false;
