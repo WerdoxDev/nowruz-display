@@ -8,7 +8,7 @@
   import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
   import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
   import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
-  import { Mesh, ShaderMaterial } from "three";
+  import { ShaderMaterial } from "three";
   import { Fireworks } from "fireworks-js";
 
   let canvas: HTMLCanvasElement;
@@ -255,9 +255,7 @@
     if (lMesh) scene.remove(lMesh);
     if (rMesh) scene.remove(rMesh);
 
-    // if (dateStr1 == -1 && dateStr2 == -1) return;
-
-    lMesh = numberMeshes[dateStr2 ? dateStr1 : 0].clone();
+    lMesh = numberMeshes[dateStr2 != -1 ? dateStr1 : 0].clone();
     lMesh.name = "l" + name;
     lMesh.position.set(-1.8, 2.8, lPosition);
     lMesh.castShadow = false;
