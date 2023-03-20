@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --host 192.168.1.235 --port 80",
     "build": "vite build",
-    "preview": "vite preview",
+    "preview": "vite preview --host 192.168.1.235 --port 80",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
