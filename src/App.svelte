@@ -20,6 +20,7 @@
   let composer: EffectComposer;
   let finalComposer: EffectComposer;
   let lastDelta = 0;
+  let isFinished = false;
   const normalMeshes: Array<THREE.Mesh<THREE.BufferGeometry, THREE.MeshPhongMaterial>> = [];
   const bloomMeshes: Array<THREE.Mesh<THREE.BufferGeometry, THREE.MeshPhongMaterial>> = [];
   const numberMeshes: Array<THREE.Mesh<THREE.BufferGeometry, THREE.MeshPhongMaterial>> = [null, null, null, null, null, null, null, null, null, null, null];
@@ -113,6 +114,8 @@
               child.receiveShadow = true;
               if (i == 11) bloomMeshes.push(child);
               else normalMeshes.push(child);
+
+              if (i == 12) isFinished = true;
             }
           });
           scene.add(obj);
@@ -246,6 +249,7 @@
   }
 
   function addNumberSet(name: string, date: number, lPosition: number, rPosition: number, addColon: boolean) {
+    if (!isFinished) return;
     var dateStr1 = Number.isNaN(parseInt(date.toString().charAt(0))) ? -1 : parseInt(date.toString().charAt(0));
     var dateStr2 = Number.isNaN(parseInt(date.toString().charAt(1))) ? -1 : parseInt(date.toString().charAt(1));
 
@@ -255,6 +259,7 @@
     if (lMesh) scene.remove(lMesh);
     if (rMesh) scene.remove(rMesh);
 
+    console.log(numberMeshes.length);
     lMesh = numberMeshes[dateStr2 != -1 ? dateStr1 : 0].clone();
     lMesh.name = "l" + name;
     lMesh.position.set(-1.8, 2.8, lPosition);
@@ -262,7 +267,6 @@
     lMesh.visible = true;
     scene.add(lMesh);
 
-    console.log(dateStr1 + " " + dateStr2 + " " + date + " " + name);
     rMesh = numberMeshes[dateStr2 != -1 && dateStr1 != -1 ? dateStr2 : dateStr1 != -1 ? dateStr1 : 0].clone();
     rMesh.name = "r" + name;
     rMesh.position.set(-1.8, 2.8, rPosition);
